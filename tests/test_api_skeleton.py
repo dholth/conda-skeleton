@@ -10,9 +10,11 @@ from typing import TYPE_CHECKING
 
 import pytest
 import ruamel.yaml
-
 from conda_build import api
-from conda_build.skeletons.pypi import (
+from conda_build.utils import on_win
+from conda_build.version import _parse as parse_version
+
+from conda_skeleton.skeletons.pypi import (
     clean_license_name,
     convert_to_flat_list,
     get_dependencies,
@@ -25,8 +27,6 @@ from conda_build.skeletons.pypi import (
     get_tests_require,
     is_setuptools_enabled,
 )
-from conda_build.utils import on_win
-from conda_build.version import _parse as parse_version
 
 if TYPE_CHECKING:
     from conda_build.config import Config
@@ -477,7 +477,8 @@ def test_pypi_section_order_preserved(tmp_path: Path):
     Test whether sections have been written in the correct order.
     """
     from conda_build.render import FIELDS
-    from conda_build.skeletons.pypi import (
+
+    from conda_skeleton.skeletons.pypi import (
         ABOUT_ORDER,
         PYPI_META_STATIC,
         REQUIREMENTS_ORDER,

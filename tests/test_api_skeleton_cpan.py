@@ -6,7 +6,6 @@ conda_build.api.skeletonize and check the output files
 """
 
 import pytest
-
 from conda_build import api
 from conda_build.jinja_context import compiler
 

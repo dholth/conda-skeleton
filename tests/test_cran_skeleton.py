@@ -8,9 +8,9 @@ import os
 
 import pytest
 from conda.auxlib.ish import dals
-
 from conda_build.license_family import allowed_license_families
-from conda_build.skeletons.cran import (
+
+from conda_skeleton.skeletons.cran import (
     get_license_info,
     read_description_contents,
     remove_comments,

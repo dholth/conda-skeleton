@@ -7,9 +7,9 @@ Unit tests of the CPAN skeleton utility functions
 from pathlib import Path
 
 import pytest
-
-from conda_build.skeletons.cpan import get_core_modules_for_this_perl_version
 from conda_build.variants import get_default_variant
+
+from conda_skeleton.skeletons.cpan import get_core_modules_for_this_perl_version
 
 
 @pytest.mark.slow

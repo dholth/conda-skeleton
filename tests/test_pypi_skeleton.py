@@ -3,8 +3,8 @@
 import pytest
 from conda.auxlib.ish import dals
 
-from conda_build.skeletons import pypi
-from conda_build.skeletons.pypi import _formating_value, _print_dict
+from conda_skeleton.skeletons import pypi
+from conda_skeleton.skeletons.pypi import _formating_value, _print_dict
 
 
 @pytest.mark.parametrize(

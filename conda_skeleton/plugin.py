@@ -11,49 +11,6 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
 
-# lazy-import to avoid nasty import-time side effects when not using conda-build
-def build(args: Sequence[str]) -> int:
-    from .cli.main_build import execute
-
-    return execute(args)
-
-
-def convert(args: Sequence[str]) -> int:
-    from .cli.main_convert import execute
-
-    return execute(args)
-
-
-def debug(args: Sequence[str]) -> int:
-    from .cli.main_debug import execute
-
-    return execute(args)
-
-
-def develop(args: Sequence[str]) -> int:
-    from .cli.main_develop import execute
-
-    return execute(args)
-
-
-def inspect(args: Sequence[str]) -> int:
-    from .cli.main_inspect import execute
-
-    return execute(args)
-
-
-def metapackage(args: Sequence[str]) -> int:
-    from .cli.main_metapackage import execute
-
-    return execute(args)
-
-
-def render(args: Sequence[str]) -> int:
-    from .cli.main_render import execute
-
-    return execute(args)
-
-
 def skeleton(args: Sequence[str]) -> int:
     from .cli.main_skeleton import execute
 
@@ -63,45 +20,7 @@ def skeleton(args: Sequence[str]) -> int:
 @conda.plugins.hookimpl
 def conda_subcommands():
     yield CondaSubcommand(
-        name="build",
-        summary="Build conda packages from a conda recipe.",
-        action=build,
-    )
-    yield CondaSubcommand(
-        name="convert",
-        summary="Convert pure Python packages to other platforms (a.k.a., subdirs).",
-        action=convert,
-    )
-    yield CondaSubcommand(
-        name="debug",
-        summary="Debug the build or test phases of conda recipes.",
-        action=debug,
-    )
-    yield CondaSubcommand(
-        name="develop",
-        summary=(
-            "Install a Python package in 'development mode'. "
-            "Similar to `pip install --editable`."
-        ),
-        action=develop,
-    )
-    yield CondaSubcommand(
-        name="inspect",
-        summary="Tools for inspecting conda packages.",
-        action=inspect,
-    )
-    yield CondaSubcommand(
-        name="metapackage",
-        summary="Specialty tool for generating conda metapackage.",
-        action=metapackage,
-    )
-    yield CondaSubcommand(
-        name="render",
-        summary="Expand a conda recipe into a platform-specific recipe.",
-        action=render,
-    )
-    yield CondaSubcommand(
-        name="skeleton",
+        name="skeleton2",
         summary="Generate boilerplate conda recipes.",
         action=skeleton,
     )

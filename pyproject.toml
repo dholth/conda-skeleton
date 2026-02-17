@@ -1,0 +1,154 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [
+  "hatchling >=1.12.2",
+  "hatch-vcs >=0.2.0",
+]
+
+[project]
+authors = [{name = "Anaconda, Inc.", email = "conda@continuum.io"}]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "License :: OSI Approved :: BSD License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  # These are available on pypi, but only as older versions.
+  "conda >=25.11.0",
+  "conda-build >=25.11.0",
+]
+description = "tools for creating conda recipes"
+dynamic = ["version"]
+license = {file = "LICENSE"}
+name = "conda-skeleton"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.entry-points.conda]
+conda-skeleton = "conda_skeleton.plugin"
+
+[project.urls]
+repository = "https://github.com/conda-incubator/conda-skeleton"
+
+[tool.coverage.report]
+exclude_lines = [
+  "if TYPE_CHECKING:",  # ignoring type checking imports
+]
+show_missing = true
+skip_covered = true
+sort = "Miss"
+
+[tool.coverage.run]
+# store relative paths in coverage information
+relative_files = true
+
+[tool.hatch.build]
+include = ["conda_skeleton"]
+
+[tool.hatch.build.hooks.vcs]
+version-file = "conda_skeleton/_version.py"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+local_scheme = "dirty-tag"
+
+[tool.pytest.ini_options]
+addopts = [
+  "--color=yes",
+  "--cov-append",
+  "--cov-branch",
+  "--cov-report=term",  # print summary table to screen
+  "--cov-report=xml",  # for codecov/codecov-action upload
+  "--durations=16",  # show 16 slowest tests
+  "--junitxml=junit.xml",
+  "--strict-markers",
+  "--tb=native",
+  "-vv",
+]
+doctest_optionflags = [
+  "NORMALIZE_WHITESPACE",
+  "IGNORE_EXCEPTION_DETAIL",
+  "ALLOW_UNICODE",
+  "ELLIPSIS",
+]
+filterwarnings = [
+  # elevate conda's deprecated warning to an error
+  "error::PendingDeprecationWarning:conda",
+  "error::DeprecationWarning:conda",
+  # elevate conda-build's deprecated warning to an error
+  "error::PendingDeprecationWarning:conda_build",
+  "error::DeprecationWarning:conda_build",
+  # ignore numpy.distutils error
+  'ignore:\s+`numpy.distutils` is deprecated:DeprecationWarning:conda_build._load_setup_py_data',
+  # ignore conda-package-streaming error
+  "ignore:conda.core.index._supplement_index_with_system is pending deprecation:PendingDeprecationWarning:conda",
+  # TEMPORARY: Remove once CLS is released with https://github.com/conda/conda-libmamba-solver/pull/691
+  "ignore:conda.plugins.CondaSolver:PendingDeprecationWarning",
+  "ignore:conda.plugins.CondaSolver:DeprecationWarning",
+  # ignore conda prefix data deprecation
+  "ignore:conda.core.prefix_data:DeprecationWarning",
+  # ignore conda prefix data pending deprecation (including pip_interop_enabled)
+  "ignore:conda.core.prefix_data:PendingDeprecationWarning",
+  # ignore conda index deprecation
+  "ignore:conda.core.index._supplement_index_with_system is deprecated:DeprecationWarning",
+  # ignore conda trust deprecation
+  "ignore:conda.trust:DeprecationWarning",
+  "ignore:conda.trust:PendingDeprecationWarning",
+  # ignore conda link PrefixActions deprecation
+  "ignore:conda.core.link.PrefixActions is deprecated and will be removed in 26.3:DeprecationWarning",
+  "ignore:conda.core.link.PrefixActions is pending deprecation and will be removed in 26.3:PendingDeprecationWarning",
+  # ignore conda PathType -> PathEnum rename deprecation
+  "ignore:conda.models.enums.PathType is pending deprecation:PendingDeprecationWarning",
+  # ignore conda CONDA_PACKAGE_EXTENSIONS deprecation (use plugin_manager.get_package_extractors() instead)
+  "ignore:conda.base.constants.CONDA_PACKAGE_EXTENSIONS is pending deprecation:PendingDeprecationWarning",
+]
+markers = [
+  "serial: execute test serially (to avoid race conditions)",
+  "slow: execute the slow tests if active",
+  "sanity: execute the sanity tests",
+  "no_default_testing_config: used internally to disable monkeypatching for testing_config",
+  "benchmark: execute the benchmark tests",
+  "memray: memory use tests",
+]
+minversion = 3.0
+norecursedirs = ["tests/test-recipes/*"]
+testpaths = ["tests"]
+
+[tool.ruff]
+show-fixes = true
+target-version = "py310"
+
+[tool.ruff.lint]
+flake8-type-checking = {exempt-modules = [], strict = true}
+ignore = [
+  "E402",  # module level import not at top of file
+  "E722",  # do not use bare 'except'
+  "E731",  # do not assign a lambda expression, use a def
+]
+pycodestyle = {max-line-length = 120}
+# see https://docs.astral.sh/ruff/rules/
+select = [
+  "E",  # pycodestyle errors
+  "F",  # pyflakes
+  "FA",  # flake8-future-annotations
+  "I",  # isort
+  "ISC",  # flake8-implicit-str-concat
+  "T10",  # flake8-debugger
+  "TCH",  # flake8-type-checking
+  "UP",  # pyupgrade
+  "W",  # pycodestyle warnings
+]
+
+[tool.setuptools_scm]
+version_file = "conda_skeleton/_version.py"
